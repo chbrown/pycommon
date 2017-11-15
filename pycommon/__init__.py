@@ -173,3 +173,18 @@ def strict_groupby(iterable, keyfunc):
     '''
     for key, sub_iterator in itertools.groupby(sorted(iterable, key=keyfunc), keyfunc):
         yield key, list(sub_iterator)
+
+
+def margins(xs, ordering=None, width=25):
+    '''
+    Reorder xs by the given ordering and return a tuple of a slice of the top
+    and the bottom. Generally, you'll use np.argsort to determine ordering,
+    e.g.:
+
+        margins(vocab, np.argsort(vocab_counts))
+    '''
+    if ordering is not None:
+        xs = xs[ordering]
+    low = xs[0:width]
+    high = xs[-width:]
+    return low, high
