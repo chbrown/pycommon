@@ -3,7 +3,7 @@ import itertools
 import operator
 import pkg_resources
 
-__version__ = pkg_resources.get_distribution('python-common').version
+__version__ = pkg_resources.get_distribution('pycommon').version
 
 
 get0 = operator.itemgetter(0)

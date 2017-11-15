@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='python-common',
+    name='pycommon',
     version='0.0.1',
     author='Christopher Brown',
     author_email='io@henrian.com',

@@ -1,15 +1,15 @@
-# `python-common`
+# `pycommon`
 
 General purpose Python programming libraries.
 
 Install:
 
-    easy_install https://github.com/chbrown/python-common/tarball/master
+    easy_install https://github.com/chbrown/pycommon/tarball/master
 
 Develop:
 
-    git clone https://github.com/chbrown/python-common.git
-    cd python-common
+    git clone https://github.com/chbrown/pycommon.git
+    cd pycommon
     python setup.py develop
 
 Use:
