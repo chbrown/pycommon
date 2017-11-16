@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 
 
-def int_histogram(data, min=None, max=None):
+def int_histogram(data, min_value=None, max_value=None):
     '''
     >>> int_histogram([1, 1, 2, 4], 1, 4)
     (array([2, 1, 0, 1]), array([1, 2, 3, 4, 5]))
@@ -11,9 +11,11 @@ def int_histogram(data, min=None, max=None):
     (array([2, 1, 0, 1]), array([1, 2, 3, 4, 5]))
     '''
     data = np.array(data)
-    start = min if min is not None else data.min()
-    stop = (max if max is not None else data.max()) + 2
-    bins = np.arange(start, stop)
+    if min_value is None:
+        min_value = data.min()
+    if max_value is None:
+        max_value = data.max()
+    bins = np.arange(min_value, max_value + 2)
     return np.histogram(data, bins=bins)
 
 
@@ -41,7 +43,7 @@ def plt_int_bar(counts, x, label_height=7, label_ha='center', label_va='bottom')
     return fig, ax
 
 
-def plt_int_hist(data, title, min=None, max=None, label_height=7):
-    hist, bin_edges = int_histogram(data, min=min, max=max)
+def plt_int_hist(data, title, min_value=None, max_value=None, label_height=7):
+    hist, bin_edges = int_histogram(data, min_value=min_value, max_value=max_value)
     plt_int_bar(hist, bin_edges[:-1], label_height=label_height)
     plt.title(title)

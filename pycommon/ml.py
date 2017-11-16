@@ -95,7 +95,7 @@ def train_test_report_iter(X, y, train_sizes, n_iter, Model):
     for train_size in train_sizes:
         # when test_size is None, the complement of train_size will be used.
         folds = cross_validation.ShuffleSplit(len(y), n_iter=n_iter, train_size=train_size, test_size=None)
-        for i, (train_indices, test_indices) in enumerate(folds):
+        for _, (train_indices, test_indices) in enumerate(folds):
             model = Model()
             report = train_test_report(X, y, train_indices, test_indices, model)
             yield dict(train=len(train_indices), test=len(test_indices), **report)

@@ -1,9 +1,9 @@
 import re
 import codecs
 import os.path
-from unidecode import unidecode
 
-from memo import memoized_property
+from .memo import memoized_property
+
 
 class TextFile(object):
     '''
@@ -40,24 +40,23 @@ class TextFile(object):
         return '<TextFile({filepath})>'.format(filepath=self.filepath)
 
 
-_whitespace_chars = [u'\t', u'\n', u'\x0b', u'\x0c', u'\r'] # ordinals: [9, 10, 11, 12, 13]
-_whitespace_mapping = {ord(char): u' ' for char in _whitespace_chars}
+_whitespace_chars = ['\t', '\n', '\x0b', '\x0c', '\r']  # ordinals: [9, 10, 11, 12, 13]
+_whitespace_mapping = str.maketrans({ord(char): ' ' for char in _whitespace_chars})
+
+
 def normalize_whitespace(dirty_string):
     '''
     Replace all unusual whitespace in dirty_string with
     '''
-    assert isinstance(dirty_string, unicode), 'normalize_whitespace only supports unicode strings'
     return dirty_string.translate(_whitespace_mapping)
 
-stopwords = {'and', 'of', 'in', 'the', 'for', 'a', 'on', 'to', 'with', 'an'}
 
-def tokenize(string, stopwords=stopwords):
+default_stopwords = frozenset({'and', 'of', 'in', 'the', 'for', 'a', 'on', 'to', 'with', 'an'})
+
+
+def tokenize(string, stopwords=default_stopwords):
     '''
-    Lowercase string, converting it to a plain ASCII str with unidecode if it's
-    unicode, and then find all word fragments in it, where a word fragment is
-    designated by r'\b\w+\b'.
+    Lowercase string, then find all word fragments in it,
+    where a word fragment is designated by r'\\b\\w+\\b'.
     '''
-    string = string.lower()
-    if isinstance(string, unicode):
-        string = unidecode(string)
-    return [token for token in re.findall(r'\b\w+\b', string) if token not in stopwords]
+    return [token for token in re.findall(r'\b\w+\b', string.lower()) if token not in stopwords]

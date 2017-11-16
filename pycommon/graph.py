@@ -1,6 +1,7 @@
 from itertools import groupby
 from pycommon import get0, get1
 
+
 def iter_bidirectional(edges):
     '''
     Iterate through each (source, target) tuple in edges, yielding it along with
@@ -15,6 +16,7 @@ def iter_bidirectional(edges):
     for source, target in edges:
         yield source, target
         yield target, source
+
 
 def graph_map(edges):
     '''
@@ -31,6 +33,7 @@ def graph_map(edges):
     source_edge_groups_iterable = groupby(sorted(edges, key=get0), get0)
     return dict((source, set(map(get1, edge_group))) for source, edge_group in source_edge_groups_iterable)
 
+
 def get_component(graph, source_id):
     '''
     Find the set of all nodes connected to source_id within graph, including source_id.
@@ -45,13 +48,14 @@ def get_component(graph, source_id):
     '''
     processed_ids = set()
     unprocessed_ids = set([source_id])
-    while len(unprocessed_ids) > 0:
+    while unprocessed_ids:
         unprocessed_id = unprocessed_ids.pop()
         processed_ids.add(unprocessed_id)
         # doesn't work due to redefinition in more limited scope:
         # unprocessed_ids |= graph[unprocessed_id] - processed_ids
         unprocessed_ids.update(graph[unprocessed_id] - processed_ids)
     return processed_ids
+
 
 def get_all_components(graph):
     '''
@@ -68,7 +72,7 @@ def get_all_components(graph):
         input graph.
     '''
     queue_ids = set(graph.keys())
-    while len(queue_ids) > 0:
+    while queue_ids:
         # grab a random starting point id from the queue
         next_id = queue_ids.pop()
         component = get_component(graph, next_id)

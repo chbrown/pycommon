@@ -1,5 +1,3 @@
-# importing division from __future__ affects only this module
-from __future__ import division
 import collections
 import operator
 

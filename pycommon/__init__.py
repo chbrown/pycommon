@@ -1,9 +1,8 @@
-from __future__ import division
 import itertools
+from functools import reduce
 import operator
-import pkg_resources
 
-__version__ = pkg_resources.get_distribution('pycommon').version
+__version__ = '0.0.1'
 
 
 get0 = operator.itemgetter(0)
@@ -99,7 +98,7 @@ def product(xs):
     '''
     Compute the product of all values in `xs`. Returns 1 if `xs` is empty.
     '''
-    #return math.exp(sum(math.log(x) for x in xs))
+    # return math.exp(sum(math.log(x) for x in xs))
     return reduce(operator.mul, xs, 1)
 
 

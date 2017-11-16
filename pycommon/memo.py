@@ -16,11 +16,13 @@ def memoized_property(getter_function):
             def text(self):
                 return open(self.filepath).read()
     '''
-    propname = '__' + getter_function.func_name
-    def fget(self, *args, **kw):
+    propname = '__' + getter_function.__name__
+
+    def fget(self):
         if hasattr(self, propname):
             return getattr(self, propname)
         value = getter_function(self)
         setattr(self, propname, value)
         return value
+
     return property(fget, doc=getter_function.__doc__)

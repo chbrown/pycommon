@@ -1,22 +1,27 @@
 def td(html):
     return '<td>%s</td>' % html
 
+
 def th(html):
     return '<th>%s</th>' % html
 
+
 def tr(tds):
     return '<tr>%s</tr>' % ''.join(tds)
+
 
 def table(trs):
     return '<table>%s</table>' % ''.join(trs)
 
 
 _escape_html_translations = {
-    ord(u'<'): u'&lt;',
-    ord(u'>'): u'&gt;',
-    ord(u'&'): u'&amp;',
-    # ord(u' '): u'&nbsp;',
+    ord('<'): '&lt;',
+    ord('>'): '&gt;',
+    ord('&'): '&amp;',
+    # ord(' '): '&nbsp;',
 }
+
+
 def escape_html(string):
     return string.translate(_escape_html_translations)
 
@@ -49,7 +54,7 @@ class DictTable(object):
 
     def _repr_html_(self):
         if self.keys is None:
-            self.keys = set(key for record in self.records for key in record.keys())
+            self.keys = set(key for record in self.records for key in record)
         header_trs = [tr(th(key) for key in self.keys)]
         body_trs = [tr(td(record.get(key, self.missing)) for key in self.keys) for record in self.records]
         return table(header_trs + body_trs)
@@ -66,9 +71,10 @@ class String(object):
         return escape_html(self.string)
 
 
-def key_value(key, value):
-    return u'<span style="padding-right: 10px"><b>%s</b>&rarr;%s</span>' % (
-        escape_html(unicode(key)), escape_html(unicode(value)))
+def _key_value(key, value):
+    return '<span style="padding-right: 10px"><b>%s</b>&rarr;%s</span>' % (
+        escape_html(str(key)), escape_html(str(value)))
+
 
 class Dict(object):
     '''
@@ -79,7 +85,7 @@ class Dict(object):
         notebook.Dict({'A': 1, 'B': '2'})
     '''
     def __init__(self, mapping):
-        self.items = mapping.items() if isinstance(mapping, dict) else mapping
+        self.items = list(mapping.items()) if isinstance(mapping, dict) else mapping
 
     def _repr_html_(self):
-        return u'<div>%s</div>' % ' '.join(key_value(key, value) for key, value in self.items)
+        return '<div>%s</div>' % ' '.join(_key_value(key, value) for key, value in self.items)
