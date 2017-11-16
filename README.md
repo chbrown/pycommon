@@ -1,21 +1,28 @@
 # `pycommon`
 
-General purpose Python programming libraries.
+General purpose Python programming modules.
 
-Install:
 
-    easy_install https://github.com/chbrown/pycommon/tarball/master
+#### Install from source with pip:
 
-Develop:
+    pip install -U git+https://github.com/chbrown/pycommon
+
+
+#### Develop locally:
 
     git clone https://github.com/chbrown/pycommon.git
     cd pycommon
-    python setup.py develop
 
-Use:
+Link to development sources from Python `site-packages` directory:
+
+    SITE_PACKAGES=$(python -c 'import os,site;print(os.path.realpath(next(iter(site.getsitepackages()))))')
+    pwd > "$SITE_PACKAGES"/pycommon.pth
+
+
+#### Use modules:
 
     import pycommon
-    print pycommon.__version__
+    print(pycommon.__version__)
 
     from pycommon.algebraic import AlgebraicDict
     from pycommon.memo import memoized_property
@@ -23,4 +30,4 @@ Use:
 
 ## License
 
-Copyright 2015 Christopher Brown. [MIT Licensed](http://chbrown.github.io/licenses/MIT/#2015).
+Copyright 2015-2017 Christopher Brown. [MIT Licensed](http://chbrown.github.io/licenses/MIT/#2015-2017).
